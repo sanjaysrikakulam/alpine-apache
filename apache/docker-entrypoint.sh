@@ -280,7 +280,7 @@ configure_access_control() {
 		echo -e "$tab AddOutputFilterByType DEFLATE $ENABLE_ADD_OUTPUT_FILTER_BY_TYPE" >> ${confd_path}/000-access_control.conf
     fi
     
-	echo -e "$tab Require valid-user" \n"</Directory>" >> ${confd_path}/000-access_control.conf
+    echo -e "$tab Require valid-user\n</Directory>" >> ${confd_path}/000-access_control.conf
 }
 
 ########## Access control configurations done ##########
