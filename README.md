@@ -29,21 +29,21 @@ $ docker-compose up -d
 
 # Hosting a website
 
-- Use the utility script [setup_docker_container.sh] (https://github.com/sanjaysrikakulam/alpine-apache/blob/master/apache/setup_docker_container.sh) to create base setup and configuration
+- Use the utility script [setup_docker_container.sh](https://github.com/sanjaysrikakulam/alpine-apache/blob/master/apache/setup_docker_container.sh) to create base setup and configuration
 
 ```bash
 $ setup_docker_container.sh -p </docker/docker-containers/> -d <alpine-apache> -c <alpine-apache>
 ```
 
 - This script will create a folder structure, docker-compose.yml file and will change the selinux context of them
-
+```
 └── alpine-apache
     ├── apache-log
     ├── certs
     ├── docker-compose.yml
     ├── extra-conf.d
     └── htdocs
-
+```
 ## Directory setup explanation
 
 - **apache-log:** This is where apache will write its error and ssl_access log
@@ -84,7 +84,7 @@ services:
             - ./htdocs:/var/www/htdocs:Z
             - ./certs:/etc/ssl/apache2:ro
             - ./apache-log:/var/www/logs:Z
-		networks:
+        networks:
             outside:
                 ipv4_address: <Please add the ip address for this container here>
         environment:
@@ -92,7 +92,7 @@ services:
             REDIRECT_HTTP_TO_HTTPS : "true"
             ENABLE_HSTS: "true"
             ENABLE_MOD_PROXY: "true"
-			
+	    
 networks:
     outside:
         external:
@@ -106,11 +106,11 @@ networks:
 When you start the alpine-pache image, you can adjust the configuration of the instance by enabling or disabling one or more environment variable in the docker-compose file
 
 * Add the variable name and value under the environment section
-* The possible environment variables can be found in this [docker-compose-template] (https://github.com/sanjaysrikakulam/alpine-apache/blob/master/apache/docker-compose-template/docker-compose.yml) file
+* The possible environment variables can be found in this [docker-compose-template](https://github.com/sanjaysrikakulam/alpine-apache/blob/master/apache/docker-compose-template/docker-compose.yml) file
 
 ## SSL Certificates
 
-* As specified earlier, you will have to either provide a self signed certificate and a key file or one signed by a proper CA. You will have to add them to *certs* directory in a specific format *SERVERNAME-cert.pem* and *SERVERNAME-key.pem*
+* As specified earlier, you will have to either provide a self signed certificate and a key file or the one signed by a proper CA. You will have to add them to *certs* directory in a specific format *SERVERNAME-cert.pem* and *SERVERNAME-key.pem*
 
 # Issues
 
