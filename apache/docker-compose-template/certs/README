@@ -1,0 +1,1 @@
+add the certificates to this folder with specific format "<SERVER_NAME>-cert.pem (certificate), <SERVER_NAME>-key.pem (certificate key)"

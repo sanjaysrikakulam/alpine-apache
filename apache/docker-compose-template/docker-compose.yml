@@ -1,0 +1,45 @@
+version: '2'
+services:
+    apache:
+        image: alpine/apache:latest
+        # container name should be the hostname if possible
+        container_name: hostname
+        # use the FQDN of the website
+        hostname: hostname
+        ports:
+            - "80"
+            - "443"
+        cap_add:
+            # NET_ADMIN and NET_RAW are required for firewall configuration
+            - NET_ADMIN
+            - NET_RAW
+        volumes:
+            - ./apache-conf.d:/etc/apache2/extra-conf.d:ro
+            - ./htdocs:/var/www/htdocs:Z
+            - ./certs:/etc/ssl/apache2:ro
+            - ./apache-log:/var/www/logs:Z
+        environment:
+            # value for Apache 'ServerName' option
+            SERVER_NAME: hostname
+            # if true, HTTP support is disabled (implies DISABLE_HTTPS: false)
+            DISABLE_HTTP: false
+            # if true, HTTPS support is disabled (implies DISABLE_HTTP: false)
+            # if false, expects to find valid certificates under /etc/ssl/apache2 (see volume above), named like <SERVER_NAME>-cert.pem (certificate), <SERVER_NAME>-key.pem (certificate key)
+            # if true, redirects all HTTP requests to HTTPS using the 301 HTTP response code ('moved permanently'), implies ENABLE_MOD_REWRITE: true
+            REDIRECT_HTTP_TO_HTTPS : true
+            # if true, HSTS headers are configured
+            ENABLE_HSTS: true
+            # if true, mod_proxy and mod_proxy_http are enabled 
+            ENABLE_MOD_PROXY: true
+            # if true, mod_autoindex is enabled
+            ENABLE_MOD_AUTOINDEX: true
+            # if true, mod_negotiation is enabled
+            ENABLE_MOD_NEGOTIATION: true
+            # if true, configuration overrides via htaccess files will be enabled and will be set to "all" directive
+            ENABLE_ALLOWOVERRIDE: true
+            # if configured (not null nor empty), configuration overrides via htaccess files will be further restricted (e.g., AuthConfig Limit FileInfo Indexes)
+            ENABLE_ALLOWOVERRIDE_DIRECTIVES: null
+            # if configured (not null nor empty), Options directive will control which server features are available in a particular directory (e.g., Indexes MultiViews ALL) (Default FollowSymLinks)
+            ENABLE_OPTIONS_DIRECTIVES: null
+            # if configured (not null nor empty), AddOutputFilterByType directive will be enabled (e.g., text/html text/plain text/xml)
+            ENABLE_ADD_OUTPUT_FILTER_BY_TYPE: null
