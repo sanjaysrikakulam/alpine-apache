@@ -14,7 +14,7 @@ services:
             - NET_ADMIN
             - NET_RAW
         volumes:
-            - ./apache-conf.d:/etc/apache2/extra-conf.d:ro
+            - ./extra-conf.d:/etc/apache2/extra-conf.d:ro
             - ./htdocs:/var/www/htdocs:Z
             - ./certs:/etc/ssl/apache2:ro
             - ./apache-log:/var/www/logs:Z
